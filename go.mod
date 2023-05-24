@@ -1,4 +1,4 @@
-module github.com/ethereum/api-in
+module github.com/ethereum/agentCard
 
 go 1.19
 

@@ -2,9 +2,8 @@ package api
 
 import (
 	"fmt"
-	"github.com/ethereum/api-in/config"
-	"github.com/ethereum/api-in/pkg/web/auth"
-	"github.com/ethereum/api-in/types"
+	"github.com/ethereum/agentCard/config"
+	"github.com/ethereum/agentCard/types"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -45,20 +44,37 @@ func (a *ApiService) Run() {
 	})
 
 	//验证token
-	r.Use(auth.MustExtractUser())
+	//r.Use(auth.MustExtractUser())
 
-	//机构填入注册信息-apikey 和 secret--疑问：这里如何校验，杜绝冒充的抢先更新--本期先不做
-	//r.POST("/init", a.init)
-	//转账
-	r.POST("/transfer", a.transfer)
+	//录入代理商注册信息
+	r.POST("/initAgent", a.initAgent)
+	//导入卡号
+	r.POST("/initCard", a.initCard)
+	//更新密码
+	r.POST("/updatePassword", a.updatePassword)
+
+	//设置收益结算规则
+	r.POST("/setProfitRule", a.setProfitRule)
+
+	//批量返佣
+	r.POST("/cardsRebate", a.cardsRebate)
+
 	//提现
 	r.POST("/withdraw", a.withdraw)
-	//汇兑
-	r.POST("/exchange", a.exchange)
-	//下单
-	r.POST("/order", a.order)
 
-	logrus.Info("coin-manage run at " + a.config.Server.Port)
+	//卡激活信息查询
+	r.Get("/activeCardInfo", a.activeCardInfo)
+
+	//代理卡信息查询
+	r.Get("/agentCardInfo", a.agentCardInfo)
+
+	//收益发放历史
+	r.Get("/profitHistory", a.profitHistory)
+
+	//未返佣查的卡查询
+	r.Get("/GetUnRebate", a.GetUnRebate)
+
+	logrus.Info("agentCard run at " + a.config.Server.Port)
 
 	err := r.Run(fmt.Sprintf(":%s", a.config.Server.Port))
 	if err != nil {

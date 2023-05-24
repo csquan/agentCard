@@ -2,12 +2,12 @@ package db
 
 import (
 	"fmt"
-	"github.com/ethereum/api-in/types"
+	"github.com/ethereum/agentCard/types"
 	"time"
 
-	"github.com/ethereum/api-in/config"
+	"github.com/ethereum/agentCard/config"
+	"github.com/go-gorm/gorm"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/go-xorm/xorm"
 	"github.com/sirupsen/logrus"
 	"xorm.io/core"
 )
@@ -41,15 +41,15 @@ func NewMysql(cfg *config.Config) (m *Mysql, err error) {
 	return
 }
 
-func (m *Mysql) GetEngine() *xorm.Engine {
+func (m *Mysql) GetEngine() *gorm.Engine {
 	return m.engine
 }
 
-func (m *Mysql) GetSession() *xorm.Session {
+func (m *Mysql) GetSession() *gorm.Session {
 	return m.engine.NewSession()
 }
 
-func (m *Mysql) CommitWithSession(db types.IDB, executeFunc func(*xorm.Session) error) (err error) {
+func (m *Mysql) CommitWithSession(db types.IDB, executeFunc func(*gorm.Session) error) (err error) {
 	session := db.GetSession()
 	err = session.Begin()
 	if err != nil {
@@ -77,26 +77,10 @@ func (m *Mysql) CommitWithSession(db types.IDB, executeFunc func(*xorm.Session) 
 	return
 }
 
-func (m *Mysql) InsertTransfer(itf xorm.Interface, transfer *types.TransferRecord) (err error) {
-	_, err = itf.Insert(transfer)
+func (m *Mysql) InsertAgent(itf gorm.Interface, agent *types.AgentRecord) (err error) {
+	_, err = itf.Insert(agent)
 	if err != nil {
-		logrus.Errorf("insert transfer  error:%v, transfer:%v", err, transfer)
-	}
-	return
-}
-
-func (m *Mysql) InsertWithdraw(itf xorm.Interface, withdraw *types.Withdraw) (err error) {
-	_, err = itf.Insert(withdraw)
-	if err != nil {
-		logrus.Errorf("insert withdraw  error:%v, withdraw:%v", err, withdraw)
-	}
-	return
-}
-
-func (m *Mysql) InsertMechanism(itf xorm.Interface, mechanism *types.Mechanism) (err error) {
-	_, err = itf.Insert(mechanism)
-	if err != nil {
-		logrus.Errorf("insert mechanism  error:%v, mechanism:%v", err, mechanism)
+		logrus.Errorf("insert agent  error:%v, agent:%v", err, agent)
 	}
 	return
 }

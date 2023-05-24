@@ -205,3 +205,33 @@ type InternalTransfer struct {
 	IsSync        bool       `json:"IsSync"`
 	IsTransaction bool       `json:"isTransaction"`
 }
+
+type AgentRecord struct {
+	AgentName string `gorm:"f_agentName"`
+	MobileNo  string `gorm:"f_mobileNo"`
+	CertType  string `gorm:"f_certType"`
+	CertNo    string `gorm:"f_certNo"`
+	Name      string `gorm:"f_name"`
+	Mailbox   string `gorm:"f_mailbox"`
+	Addr      string `gorm:"f_addr"`
+	CertPhoto string `gorm:"f_certPhoto"`
+	CertOther string `gorm:"f_certOther"`
+	Password  string `gorm:"f_password"`
+}
+
+type AgentCardInfo struct {
+	AgentName  string `gorm:"f_agentName"`
+	CardNo     string `gorm:"f_cardNo"`
+	CardRebate bool   `gorm:"f_cardRebate"`
+	Address    string `gorm:"f_address"`
+}
+
+type AgentProfitInfo struct {
+	AgentName         string `gorm:"f_agentName"`
+	SettlementRule    string `gorm:"f_settlementRule"`
+	ActiveRebate      string `gorm:"f_activeRebate"`
+	WithdrawThreshold string `gorm:"f_withdrawThreshold"`
+	Grade1proportion  string `gorm:"f_grade1proportion"`
+	Grade2proportion  string `gorm:"f_grade2proportion"`
+	Grade3proportion  string `gorm:"f_grade3proportion"`
+}

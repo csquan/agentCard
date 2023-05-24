@@ -1,54 +1,79 @@
-DROP TABLE IF EXISTS `t_mechanism`;
-CREATE TABLE `t_mechanism`
+DROP TABLE IF EXISTS `t_agentPersonalInfo`;
+CREATE TABLE `t_agentPersonalInfo`
 (
-    `f_id`                      bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-    `f_name`                    text COMMENT '机构名称',
-    `f_key`                     text COMMENT '机构key',
-    `f_secret`                  text COMMENT '机构密钥',
+    `f_id`                bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `f_agentName`         text COMMENT '代理商名称',
+    `f_mobileNo`          text COMMENT '手机号',
+    `f_certType`          text COMMENT '证件类型',
+    `f_certNo`            text COMMENT '证件号',
+    `f_name`              text COMMENT '姓名',
+    `f_mailbox`           text COMMENT '邮箱',
+    `f_addr`              text COMMENT '地址',
+    `f_certPhoto`         text COMMENT '证件图片',
+    `f_certOther`         text COMMENT '其它材料',
+    `f_password`          text COMMENT '密码',
+    `f_created_at`        timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'time',
+    `f_updated_at`        timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT 'time',
     PRIMARY KEY (`f_id`) /*T![clustered_index] CLUSTERED */
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='机构数据表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='代理商个人信息表';
 
-
-DROP TABLE IF EXISTS `t_transfer`;
-CREATE TABLE `t_transfer`
+DROP TABLE IF EXISTS `t_agentProfitInfo`;
+CREATE TABLE `t_agentProfitInfo`
 (
-    `f_id`                      bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-    `f_fromAccount`             text COMMENT 'fromAccount',
-    `f_toAccount`               text COMMENT 'toAmount',
-    `f_thirdId`                 text COMMENT 'thirdId',
-    `f_token`                   text COMMENT 'token',
-    `f_amount`                  text COMMENT 'amount',
-    `f_callback`                text COMMENT 'callback',
-    `f_ext`                     text COMMENT 'ext',
-    `f_isSync`                  text COMMENT 'isSync',
-    `f_isTransaction`           text COMMENT 'isTransaction',
-    `f_state`                   int DEFAULT NULL,     # 0-正在进行 1-成功 -1-失败
-    `f_error`                   text COMMENT 'error', # 对应失败的具体原因
-    `f_created_at`   timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'time',
-    `f_updated_at`   timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT 'time',
+    `f_id`                bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `f_agentName`         text COMMENT '代理商名称',
+    `f_settlementRule`    text COMMENT '结算规则(周结/月结)',
+    `f_activeRebate`      text COMMENT '激活返佣',
+    `f_withdrawThreshold` text COMMENT '提现门槛',
+    `f_grade1proportion`  text COMMENT '充值档1的返还比例(0-50万usdt)',
+    `f_grade2proportion`  text COMMENT '充值档2的返还比例(50-100万usdt-不包含50)',
+    `f_grade3proportion`  text COMMENT '充值档3的返还比例(100万usdt-不包含100)',
+    `f_created_at`        timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'time',
+    `f_updated_at`        timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT 'time',
+    PRIMARY KEY (`f_id`) /*T![clustered_index] CLUSTERED */
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='代理商收益规则表';
+
+
+DROP TABLE IF EXISTS `t_profitHistory`;
+CREATE TABLE `t_profitHistory`
+(
+    `f_id`               bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `f_agentName`        text COMMENT '代理商名称',
+    `f_grant_at`         text COMMENT '收益发放时间',
+    `f_settlementMoney`  text COMMENT '收益结算金额',
+    `f_settlementProfit` text COMMENT '收益结算利润',
+    `f_grant_at`         text COMMENT '收益发放时间',
+    `f_settlementCycle`  text COMMENT '收益结算周期',
+    `f_created_at`       timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'time',
+    `f_updated_at`       timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT 'time',
+    PRIMARY KEY (`f_id`) /*T![clustered_index] CLUSTERED */
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='代理商收益发放表';
+
+
+DROP TABLE IF EXISTS `t_agentCardInfo`;
+CREATE TABLE `t_agentCardInfo`
+(
+    `f_id`         bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `f_agentName`  text COMMENT '代理商名称',
+    `f_cardNo`     text COMMENT '卡号',
+    `f_cardRebate` text COMMENT '卡是否返佣',
+    `f_address`    text COMMENT '卡对应的usdt-trc20地址',
+    `f_created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'time',
+    `f_updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT 'time',
     PRIMARY KEY (`f_id`) /*T![clustered_index] CLUSTERED */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='转账表';
 
 
-DROP TABLE IF EXISTS `t_withdraw`;
-CREATE TABLE `t_withdraw`
+
+DROP TABLE IF EXISTS `t_agentWithdraw`;
+CREATE TABLE `t_agentWithdraw`
 (
-    `f_id`                      bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-    `f_Account`                 text COMMENT 'account',
-    `f_thirdId`                 text COMMENT 'thirdId',
-    `f_symbol`                  text COMMENT 'symbol',
-    `f_amount`                  text COMMENT 'amount',
-    `f_chain`                   text COMMENT 'chain',
-    `f_addr`                    text COMMENT 'addr',
-    `f_isSync`                  text COMMENT 'isSync',
-    `f_state`                   int DEFAULT NULL,     # 0-正在进行 1-成功 -1-失败
-    `f_error`                   text COMMENT 'error', # 对应失败的具体原因
-    `f_created_at`   timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'time',
-    `f_updated_at`   timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT 'time',
+    `f_id`           bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `f_agentName`    text COMMENT '代理商名称',
+    `f_withdrawAddr` text COMMENT '提现地址',
+    `f_created_at`   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'time',
+    `f_updated_at`   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP COMMENT 'time',
     PRIMARY KEY (`f_id`) /*T![clustered_index] CLUSTERED */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='转账表';
-
-insert into t_mechanism(f_id,f_name, f_key, f_secret)
-values (1,'testname','maTIaJ9e4ZoW', 'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUEyN1hMUTBxYXJJUkgxR1hHaUE3MQpiZFJBZ3M4b1BlQUJST1FhVE1OMlZtUjJkY1VpbklnYUp4WVc0V1U0NkxxVFpWYzlGb1hpMmNtV2pyRWovWGRoCjRKaXFEdlhuN1JNdjgveXEwczZmUHFTc3BHUkxldEVYV0tzbUc2WEFycFZaWVQ1bDNZZEJKRXpjZHQ5MElTWUgKc2tBWjY2M0kzTGJFYzBSZks2cW14bzJNbFZyQ1FNTW5UTURQbHlwQVkyQU9qSHNsTW0ybVdjRWg4WVlYRm52LwovQUxNUndRQ3AwNXkwRjB1YXFrOGxiLy9aVjdaanpVWWRDMkZ4WW16MEdXakx3eDFQWk1qY2loVEp6dWJ6OTFuCkVSakdXQWlOc21jYzJ1L1BPczZCZ3V0NlBDb2VPYWxybE54RFl3R3U2Z05jbjZZMVo1elg4VTh6ZmF1TDVKR0MKUTV3U2JjK1N6eVhvT05wQVU1Nm92eW00Umsxdk9JdTNTN2V4MEFvV2lmTmNaamlONkZ1YjNya1k3ckE1WWg1TQpaWTBiRUNoQm5mcnlTeGpITU4xWks5V05ud2FsUUNBeHhkNFh6SWkxNnRlU2FWZC9hMFVIa1BlejZuWExzeXB1CmUwN1R3U2FlNzVhWWFPci9sWDFudmZlWlpyWkdMOUwzK2Naa3Y0UUkvMUJ6cGtYZ2ZZelVBdWQzdEhaNDJyZkYKMmRnTDZ4eFpaVUtKVmtNMC9lY1RHanRmZXo2K3o4UnM0VVQ2dWUwa3cxNUJDZ0JhZzJrdHAvQjFOQ3lhdWRhVQpDZERXemdNbU9KcDBNSFVUK3FIT0thc1pPU1dKYUxQOUd5ODZTSWVEWm44bnRRdGFUWUVjU3ZBVDMyMWZraHR1ClB0SXFrUGZwOS9nWlJZN1R6dnVkQjMwQ0F3RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=');
 
 

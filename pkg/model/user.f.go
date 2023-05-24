@@ -7,8 +7,8 @@ package model
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/ethereum/api-in/pkg/util"
-	"github.com/ethereum/api-in/pkg/util/ecies"
+	"github.com/ethereum/agentCard/pkg/util"
+	"github.com/ethereum/agentCard/pkg/util/ecies"
 	"github.com/nyaruka/phonenumbers"
 	"github.com/rs/zerolog"
 	"golang.org/x/exp/slices"

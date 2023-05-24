@@ -2,7 +2,7 @@ package db
 
 import (
 	"fmt"
-	"github.com/ethereum/api-in/types"
+	"github.com/ethereum/agentCard/types"
 )
 
 func (m *Mysql) GetMechanismInfo(name string) (*types.Mechanism, error) {

@@ -3,9 +3,9 @@ package auth
 import (
 	"encoding/base64"
 	"fmt"
-	"github.com/ethereum/api-in/pkg/conf"
-	"github.com/ethereum/api-in/pkg/model"
-	"github.com/ethereum/api-in/pkg/util"
+	"github.com/ethereum/agentCard/pkg/conf"
+	"github.com/ethereum/agentCard/pkg/model"
+	"github.com/ethereum/agentCard/pkg/util"
 	jwt "github.com/golang-jwt/jwt/v4"
 	jsoniter "github.com/json-iterator/go"
 	"time"

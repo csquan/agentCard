@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/ethereum/api-in/api"
-	"github.com/ethereum/api-in/config"
-	"github.com/ethereum/api-in/db"
-	"github.com/ethereum/api-in/log"
+	"github.com/ethereum/agentCard/api"
+	"github.com/ethereum/agentCard/config"
+	"github.com/ethereum/agentCard/db"
+	"github.com/ethereum/agentCard/log"
 	"github.com/sirupsen/logrus"
 	"os"
 )
@@ -32,7 +32,7 @@ func main() {
 
 	flag.Parse()
 
-	err = log.Init("api-in", &config.Conf)
+	err = log.Init("agentCard", &config.Conf)
 	if err != nil {
 		log.Fatal(err)
 	}

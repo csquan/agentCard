@@ -6,7 +6,7 @@ import (
 	"crypto/rsa"
 	"encoding/hex"
 	"errors"
-	"github.com/ethereum/api-in/pkg/util/rsa0"
+	"github.com/ethereum/agentCard/pkg/util/rsa0"
 	jsoniter "github.com/json-iterator/go"
 	"math/big"
 	"regexp"
